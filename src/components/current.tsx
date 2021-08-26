@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 
-type currentBit = {
+type bitType = {
     time: {
         updated: string,
         updatedISO: string,
@@ -21,19 +21,20 @@ type currentBit = {
             description: string,
             rate_float: number
         }
-    },
+    }
 }
 
 const Current = () => {
-    const [task, setTask] = useState<currentBit | null>(null)
+    const [task, setTask] = useState<bitType | null>(null)
     const [loading, setLoading] = useState(true)
     const [err, setErr] = useState(false)
 
     const fetchAPI = async () => {
         try {
-            const resp = await axios.get<currentBit>('https://api.coindesk.com/v1/bpi/currentprice/thb.json')
+            const resp = await axios.get<bitType>('https://api.coindesk.com/v1/bpi/currentprice/thb.json')
             setTask(resp.data)
             setLoading(false)
+            setErr(false)
         }
         catch {
             setLoading(false)
@@ -75,16 +76,6 @@ const Current = () => {
         </div>
     )
 
-    // return (
-    //     <div className='my-5'>
-    //         <div className='text-center space-y-3'>
-    //             <p className='text-2xl font-semibold'>Current price</p>
-    //             <p className='text-2xl'>Loading ...</p>
-    //             <p className='text-2xl'>{(999999999).toLocaleString()} THB</p>
-    //             <p> (Last updated) </p>
-    //         </div>
-    //     </div>
-    // )
 }
 
 export default Current
